@@ -3,16 +3,224 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>To-Do List</title>
+  <title>Modern To-Do & Timer</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <h1>To-Do List</h1>
-    <input type="text" id="todo-input" placeholder="Add a new task" />
-    <button id="add-btn">Add Task</button>
-    <ul id="todo-list"></ul>
+  <div class="app-container" id="app-container">
+    <!-- Header with controls -->
+    <div class="header">
+      <h1><i class="fas fa-tasks"></i> TaskFlow</h1>
+      <div class="header-controls">
+        <button class="control-btn" id="float-btn" title="Toggle Floating Mode">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </button>
+        <button class="control-btn" id="minimize-btn" title="Minimize">
+          <i class="fas fa-minus"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <button class="tab-btn active" data-tab="todo">
+        <i class="fas fa-list"></i> Tasks
+      </button>
+      <button class="tab-btn" data-tab="timer">
+        <i class="fas fa-clock"></i> Timer
+      </button>
+      <button class="tab-btn" data-tab="stopwatch">
+        <i class="fas fa-stopwatch"></i> Stopwatch
+      </button>
+      <button class="tab-btn" data-tab="alarm">
+        <i class="fas fa-bell"></i> Alarm
+      </button>
+    </div>
+
+    <!-- To-Do Section -->
+    <div class="tab-content active" id="todo-tab">
+      <div class="todo-section">
+        <div class="add-task-container">
+          <input type="text" id="todo-input" placeholder="Add a new task..." />
+          <button id="add-btn">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <span class="progress-text" id="progress-text">0% Complete</span>
+        </div>
+
+        <div class="task-filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="pending">Pending</button>
+          <button class="filter-btn" data-filter="completed">Completed</button>
+        </div>
+
+        <ul id="todo-list" class="todo-list"></ul>
+      </div>
+    </div>
+
+    <!-- Timer Section -->
+    <div class="tab-content" id="timer-tab">
+      <div class="timer-section">
+        <div class="current-time">
+          <div class="time-display" id="current-time"></div>
+          <div class="date-display" id="current-date"></div>
+        </div>
+        
+        <div class="timer-controls">
+          <div class="time-inputs">
+            <div class="time-input-group">
+              <label>Hours</label>
+              <input type="number" id="timer-hours" min="0" max="23" value="0">
+            </div>
+            <div class="time-input-group">
+              <label>Minutes</label>
+              <input type="number" id="timer-minutes" min="0" max="59" value="25">
+            </div>
+            <div class="time-input-group">
+              <label>Seconds</label>
+              <input type="number" id="timer-seconds" min="0" max="59" value="0">
+            </div>
+          </div>
+          
+          <div class="timer-display" id="timer-display">25:00</div>
+          
+          <div class="timer-buttons">
+            <button class="timer-btn start" id="timer-start">
+              <i class="fas fa-play"></i> Start
+            </button>
+            <button class="timer-btn pause" id="timer-pause">
+              <i class="fas fa-pause"></i> Pause
+            </button>
+            <button class="timer-btn reset" id="timer-reset">
+              <i class="fas fa-stop"></i> Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Break Timer Settings -->
+        <div class="break-timer-section">
+          <h3><i class="fas fa-coffee"></i> Break Reminders</h3>
+          <div class="break-controls">
+            <label>Break Interval (minutes):</label>
+            <select id="break-interval">
+              <option value="0">Disabled</option>
+              <option value="5" selected>5 minutes</option>
+              <option value="10">10 minutes</option>
+              <option value="15">15 minutes</option>
+              <option value="30">30 minutes</option>
+              <option value="60">1 hour</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stopwatch Section -->
+    <div class="tab-content" id="stopwatch-tab">
+      <div class="stopwatch-section">
+        <div class="stopwatch-display" id="stopwatch-display">00:00:00</div>
+        
+        <div class="stopwatch-buttons">
+          <button class="timer-btn start" id="stopwatch-start">
+            <i class="fas fa-play"></i> Start
+          </button>
+          <button class="timer-btn pause" id="stopwatch-pause">
+            <i class="fas fa-pause"></i> Pause
+          </button>
+          <button class="timer-btn reset" id="stopwatch-reset">
+            <i class="fas fa-stop"></i> Reset
+          </button>
+          <button class="timer-btn lap" id="stopwatch-lap">
+            <i class="fas fa-flag"></i> Lap
+          </button>
+        </div>
+        
+        <div class="laps-container">
+          <h3>Lap Times</h3>
+          <ul id="laps-list" class="laps-list"></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alarm Section -->
+    <div class="tab-content" id="alarm-tab">
+      <div class="alarm-section">
+        <div class="alarm-set">
+          <h3><i class="fas fa-bell"></i> Set Alarm</h3>
+          <div class="alarm-inputs">
+            <div class="time-input-group">
+              <label>Hour</label>
+              <input type="number" id="alarm-hour" min="0" max="23" value="7">
+            </div>
+            <div class="time-input-group">
+              <label>Minute</label>
+              <input type="number" id="alarm-minute" min="0" max="59" value="0">
+            </div>
+          </div>
+          
+          <div class="alarm-controls">
+            <button class="timer-btn start" id="alarm-set">
+              <i class="fas fa-bell"></i> Set Alarm
+            </button>
+            <button class="timer-btn reset" id="alarm-cancel">
+              <i class="fas fa-bell-slash"></i> Cancel
+            </button>
+          </div>
+          
+          <div class="alarm-status" id="alarm-status"></div>
+        </div>
+        
+        <div class="active-alarms">
+          <h3>Active Alarms</h3>
+          <ul id="alarms-list" class="alarms-list"></ul>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Motivational Quote Modal -->
+  <div class="modal-overlay" id="quote-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-lightbulb"></i> Time for a Break!</h3>
+        <button class="close-btn" id="close-quote">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="quote-text" id="quote-text"></p>
+        <p class="quote-author" id="quote-author"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="timer-btn" id="dismiss-quote">Got it!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alarm Alert Modal -->
+  <div class="modal-overlay" id="alarm-modal">
+    <div class="modal-content alarm-alert">
+      <div class="modal-header">
+        <h3><i class="fas fa-bell"></i> Alarm!</h3>
+      </div>
+      <div class="modal-body">
+        <p>Your alarm is ringing!</p>
+        <div class="alarm-time" id="alarm-time-display"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="timer-btn" id="dismiss-alarm">Dismiss</button>
+        <button class="timer-btn" id="snooze-alarm">Snooze (5 min)</button>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
