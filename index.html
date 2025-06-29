@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="dark-theme">
-  <div class="app-container" id="app-container">
+  <div class="app-container fullscreen" id="app-container">
     <!-- Header with controls -->
     <div class="header">
       <h1><i class="fas fa-robot"></i> RoboFlow</h1>
@@ -18,7 +18,7 @@
           <i class="fas fa-sun"></i>
         </button>
         <button class="control-btn" id="float-btn" title="Toggle Floating Mode">
-          <i class="fas fa-expand-arrows-alt"></i>
+          <i class="fas fa-compress-arrows-alt"></i>
         </button>
         <button class="control-btn" id="minimize-btn" title="Minimize">
           <i class="fas fa-minus"></i>
@@ -30,20 +30,6 @@
     <div class="main-clock-section" id="main-clock">
       <div class="giant-clock-container">
         <div class="clock-face">
-          <div class="clock-numbers">
-            <div class="number" style="--i:1;"><span>01</span></div>
-            <div class="number" style="--i:2;"><span>02</span></div>
-            <div class="number" style="--i:3;"><span>03</span></div>
-            <div class="number" style="--i:4;"><span>04</span></div>
-            <div class="number" style="--i:5;"><span>05</span></div>
-            <div class="number" style="--i:6;"><span>06</span></div>
-            <div class="number" style="--i:7;"><span>07</span></div>
-            <div class="number" style="--i:8;"><span>08</span></div>
-            <div class="number" style="--i:9;"><span>09</span></div>
-            <div class="number" style="--i:10;"><span>10</span></div>
-            <div class="number" style="--i:11;"><span>11</span></div>
-            <div class="number" style="--i:12;"><span>12</span></div>
-          </div>
           <div class="clock-hands">
             <div class="hand hour-hand" id="hour-hand"></div>
             <div class="hand minute-hand" id="minute-hand"></div>
@@ -199,10 +185,7 @@
         </div>
         
         <div class="progress-container">
-          <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill"></div>
-          </div>
-          <span class="progress-text" id="progress-text">0% Complete</span>
+          <span class="progress-text" id="progress-text">0 of 0 tasks completed</span>
         </div>
 
         <div class="task-filters">

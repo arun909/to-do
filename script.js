@@ -160,14 +160,23 @@ class RoboFlowApp {
   toggleFloating() {
     this.isFloating = !this.isFloating;
     const container = document.getElementById('app-container');
-    container.classList.toggle('floating', this.isFloating);
+    
+    if (this.isFloating) {
+      container.classList.remove('fullscreen');
+      container.classList.add('floating');
+    } else {
+      container.classList.remove('floating');
+      container.classList.add('fullscreen');
+    }
     
     const icon = document.querySelector('#float-btn i');
-    icon.className = this.isFloating ? 'fas fa-compress-arrows-alt' : 'fas fa-expand-arrows-alt';
+    icon.className = this.isFloating ? 'fas fa-expand-arrows-alt' : 'fas fa-compress-arrows-alt';
     
     // Reset position when toggling floating mode
     if (!this.isFloating) {
       container.style.transform = '';
+      container.style.left = '';
+      container.style.top = '';
       this.dragOffset = { x: 0, y: 0 };
     }
   }
@@ -422,10 +431,8 @@ class RoboFlowApp {
   updateProgress() {
     const totalTasks = this.tasks.length;
     const completedTasks = this.tasks.filter(task => task.completed).length;
-    const progress = totalTasks === 0 ? 0 : (completedTasks / totalTasks) * 100;
     
-    document.getElementById('progress-fill').style.width = `${progress}%`;
-    document.getElementById('progress-text').textContent = `${Math.round(progress)}% Complete (${completedTasks}/${totalTasks})`;
+    document.getElementById('progress-text').textContent = `${completedTasks} of ${totalTasks} tasks completed`;
   }
   
   saveTasks() {
