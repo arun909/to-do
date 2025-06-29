@@ -9,6 +9,7 @@ class ModernTodoApp {
     this.timerInterval = null;
     this.timerTime = 0;
     this.timerRunning = false;
+    this.timerTotalTime = 0;
     
     // Stopwatch states
     this.stopwatchInterval = null;
@@ -23,6 +24,14 @@ class ModernTodoApp {
     // Break timer states
     this.breakInterval = null;
     this.breakTimer = null;
+    
+    // Fullscreen states
+    this.isFullscreen = false;
+    this.currentFullscreen = null;
+    
+    // Dragging states
+    this.isDragging = false;
+    this.dragOffset = { x: 0, y: 0 };
     
     this.motivationalQuotes = [
       { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
@@ -48,6 +57,7 @@ class ModernTodoApp {
     this.startAlarmChecker();
     this.makeDraggable();
     this.loadBreakTimer();
+    this.bindFullscreenEvents();
   }
   
   bindEvents() {
@@ -101,6 +111,110 @@ class ModernTodoApp {
     document.getElementById('snooze-alarm').addEventListener('click', () => this.snoozeAlarm());
   }
   
+  bindFullscreenEvents() {
+    // Fullscreen buttons
+    document.getElementById('clock-fullscreen').addEventListener('click', () => this.openFullscreen('clock'));
+    document.getElementById('timer-fullscreen').addEventListener('click', () => this.openFullscreen('timer'));
+    document.getElementById('stopwatch-fullscreen').addEventListener('click', () => this.openFullscreen('stopwatch'));
+    
+    // Fullscreen close buttons
+    document.getElementById('clock-fullscreen-close').addEventListener('click', () => this.closeFullscreen());
+    document.getElementById('timer-fullscreen-close').addEventListener('click', () => this.closeFullscreen());
+    document.getElementById('stopwatch-fullscreen-close').addEventListener('click', () => this.closeFullscreen());
+    
+    // Fullscreen timer controls
+    document.getElementById('fullscreen-timer-start').addEventListener('click', () => this.startTimer());
+    document.getElementById('fullscreen-timer-pause').addEventListener('click', () => this.pauseTimer());
+    document.getElementById('fullscreen-timer-reset').addEventListener('click', () => this.resetTimer());
+    
+    // Fullscreen stopwatch controls
+    document.getElementById('fullscreen-stopwatch-start').addEventListener('click', () => this.startStopwatch());
+    document.getElementById('fullscreen-stopwatch-pause').addEventListener('click', () => this.pauseStopwatch());
+    document.getElementById('fullscreen-stopwatch-reset').addEventListener('click', () => this.resetStopwatch());
+    document.getElementById('fullscreen-stopwatch-lap').addEventListener('click', () => this.addLap());
+    
+    // ESC key to close fullscreen
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.isFullscreen) {
+        this.closeFullscreen();
+      }
+    });
+  }
+  
+  // Fullscreen Management
+  openFullscreen(type) {
+    this.isFullscreen = true;
+    this.currentFullscreen = type;
+    
+    const overlay = document.getElementById(`${type}-fullscreen-overlay`);
+    overlay.classList.add('show');
+    
+    // Update fullscreen displays
+    if (type === 'clock') {
+      this.updateFullscreenClock();
+    } else if (type === 'timer') {
+      this.updateFullscreenTimer();
+    } else if (type === 'stopwatch') {
+      this.updateFullscreenStopwatch();
+    }
+    
+    // Add animation class
+    overlay.querySelector('.fullscreen-content').classList.add('fade-in-scale');
+  }
+  
+  closeFullscreen() {
+    if (!this.isFullscreen) return;
+    
+    const overlay = document.getElementById(`${this.currentFullscreen}-fullscreen-overlay`);
+    overlay.classList.remove('show');
+    
+    this.isFullscreen = false;
+    this.currentFullscreen = null;
+  }
+  
+  updateFullscreenClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    const dateString = now.toLocaleDateString('en-US', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    
+    document.getElementById('fullscreen-time').textContent = timeString;
+    document.getElementById('fullscreen-date').textContent = dateString;
+  }
+  
+  updateFullscreenTimer() {
+    const hours = Math.floor(this.timerTime / 3600);
+    const minutes = Math.floor((this.timerTime % 3600) / 60);
+    const seconds = this.timerTime % 60;
+    
+    const display = hours > 0 
+      ? `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+      : `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    document.getElementById('fullscreen-timer').textContent = display;
+    
+    // Update progress ring
+    if (this.timerTotalTime > 0) {
+      const progress = ((this.timerTotalTime - this.timerTime) / this.timerTotalTime) * 879.646;
+      const progressCircle = document.querySelector('.progress-ring-progress');
+      progressCircle.style.strokeDashoffset = 879.646 - progress;
+    }
+  }
+  
+  updateFullscreenStopwatch() {
+    const totalMs = this.stopwatchTime * 10;
+    const minutes = Math.floor(totalMs / 60000);
+    const seconds = Math.floor((totalMs % 60000) / 1000);
+    const milliseconds = Math.floor((totalMs % 1000) / 10);
+    
+    const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
+    document.getElementById('fullscreen-stopwatch').textContent = display;
+  }
+  
   // Tab Management
   switchTab(tabName) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -108,6 +222,12 @@ class ModernTodoApp {
     
     document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
     document.getElementById(`${tabName}-tab`).classList.add('active');
+    
+    // Add bounce animation to active tab
+    document.querySelector(`[data-tab="${tabName}"]`).classList.add('bounce');
+    setTimeout(() => {
+      document.querySelector(`[data-tab="${tabName}"]`).classList.remove('bounce');
+    }, 1000);
   }
   
   // Window Controls
@@ -118,6 +238,12 @@ class ModernTodoApp {
     
     const icon = document.querySelector('#float-btn i');
     icon.className = this.isFloating ? 'fas fa-compress-arrows-alt' : 'fas fa-expand-arrows-alt';
+    
+    // Reset position when toggling floating mode
+    if (!this.isFloating) {
+      container.style.transform = '';
+      this.dragOffset = { x: 0, y: 0 };
+    }
   }
   
   toggleMinimize() {
@@ -132,41 +258,57 @@ class ModernTodoApp {
   makeDraggable() {
     const header = document.querySelector('.header');
     const container = document.getElementById('app-container');
-    let isDragging = false;
-    let currentX;
-    let currentY;
-    let initialX;
-    let initialY;
-    let xOffset = 0;
-    let yOffset = 0;
     
-    header.addEventListener('mousedown', (e) => {
-      if (!this.isFloating) return;
-      
-      initialX = e.clientX - xOffset;
-      initialY = e.clientY - yOffset;
-      
-      if (e.target === header || header.contains(e.target)) {
-        isDragging = true;
-      }
-    });
+    header.addEventListener('mousedown', (e) => this.startDrag(e, container));
+    header.addEventListener('touchstart', (e) => this.startDrag(e.touches[0], container));
     
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging && this.isFloating) {
-        e.preventDefault();
-        currentX = e.clientX - initialX;
-        currentY = e.clientY - initialY;
-        
-        xOffset = currentX;
-        yOffset = currentY;
-        
-        container.style.transform = `translate(${currentX}px, ${currentY}px)`;
-      }
-    });
+    document.addEventListener('mousemove', (e) => this.drag(e, container));
+    document.addEventListener('touchmove', (e) => this.drag(e.touches[0], container));
     
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
+    document.addEventListener('mouseup', () => this.endDrag());
+    document.addEventListener('touchend', () => this.endDrag());
+  }
+  
+  startDrag(e, container) {
+    if (!this.isFloating) return;
+    
+    this.isDragging = true;
+    const rect = container.getBoundingClientRect();
+    this.dragOffset.x = e.clientX - rect.left;
+    this.dragOffset.y = e.clientY - rect.top;
+    
+    container.style.cursor = 'grabbing';
+    container.style.transition = 'none';
+  }
+  
+  drag(e, container) {
+    if (!this.isDragging || !this.isFloating) return;
+    
+    e.preventDefault();
+    
+    const x = e.clientX - this.dragOffset.x;
+    const y = e.clientY - this.dragOffset.y;
+    
+    // Constrain to viewport
+    const maxX = window.innerWidth - container.offsetWidth;
+    const maxY = window.innerHeight - container.offsetHeight;
+    
+    const constrainedX = Math.max(0, Math.min(x, maxX));
+    const constrainedY = Math.max(0, Math.min(y, maxY));
+    
+    container.style.left = `${constrainedX}px`;
+    container.style.top = `${constrainedY}px`;
+    container.style.right = 'auto';
+    container.style.transform = 'none';
+  }
+  
+  endDrag() {
+    if (!this.isDragging) return;
+    
+    this.isDragging = false;
+    const container = document.getElementById('app-container');
+    container.style.cursor = 'move';
+    container.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
   }
   
   // Todo Management
@@ -187,6 +329,12 @@ class ModernTodoApp {
       this.renderTasks();
       this.updateProgress();
       input.value = '';
+      
+      // Add bounce animation to add button
+      document.getElementById('add-btn').classList.add('bounce');
+      setTimeout(() => {
+        document.getElementById('add-btn').classList.remove('bounce');
+      }, 1000);
     }
   }
   
@@ -245,9 +393,10 @@ class ModernTodoApp {
     
     todoList.innerHTML = '';
     
-    filteredTasks.forEach(task => {
+    filteredTasks.forEach((task, index) => {
       const li = document.createElement('li');
       li.className = `todo-item ${task.completed ? 'completed' : ''}`;
+      li.style.animationDelay = `${index * 0.1}s`;
       
       li.innerHTML = `
         <input type="checkbox" class="todo-checkbox" ${task.completed ? 'checked' : ''} 
@@ -283,7 +432,12 @@ class ModernTodoApp {
   // Clock
   startClock() {
     this.updateClock();
-    setInterval(() => this.updateClock(), 1000);
+    setInterval(() => {
+      this.updateClock();
+      if (this.isFullscreen && this.currentFullscreen === 'clock') {
+        this.updateFullscreenClock();
+      }
+    }, 1000);
   }
   
   updateClock() {
@@ -307,6 +461,7 @@ class ModernTodoApp {
     const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
     
     this.timerTime = (hours * 3600) + (minutes * 60) + seconds;
+    this.timerTotalTime = this.timerTime;
     this.displayTimer();
   }
   
@@ -320,6 +475,10 @@ class ModernTodoApp {
       : `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     
     document.getElementById('timer-display').textContent = display;
+    
+    if (this.isFullscreen && this.currentFullscreen === 'timer') {
+      this.updateFullscreenTimer();
+    }
   }
   
   startTimer() {
@@ -353,6 +512,7 @@ class ModernTodoApp {
   resetTimer() {
     this.pauseTimer();
     this.timerTime = 0;
+    this.timerTotalTime = 0;
     this.updateTimerDisplay();
   }
   
@@ -360,6 +520,14 @@ class ModernTodoApp {
     this.pauseTimer();
     this.showNotification('Timer Complete!', 'Your timer has finished.');
     this.playAlarmSound();
+    
+    // Add completion animation
+    if (this.isFullscreen && this.currentFullscreen === 'timer') {
+      document.getElementById('fullscreen-timer').classList.add('bounce');
+      setTimeout(() => {
+        document.getElementById('fullscreen-timer').classList.remove('bounce');
+      }, 1000);
+    }
   }
   
   // Stopwatch
@@ -397,6 +565,10 @@ class ModernTodoApp {
     
     const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
     document.getElementById('stopwatch-display').textContent = display;
+    
+    if (this.isFullscreen && this.currentFullscreen === 'stopwatch') {
+      this.updateFullscreenStopwatch();
+    }
   }
   
   addLap() {
@@ -419,7 +591,7 @@ class ModernTodoApp {
       const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
       
       const li = document.createElement('li');
-      li.className = 'lap-item';
+      li.className = 'lap-item fade-in-scale';
       li.innerHTML = `
         <span>Lap ${index + 1}</span>
         <span>${display}</span>
@@ -464,9 +636,10 @@ class ModernTodoApp {
     const alarmsList = document.getElementById('alarms-list');
     alarmsList.innerHTML = '';
     
-    this.alarms.forEach(alarm => {
+    this.alarms.forEach((alarm, index) => {
       const li = document.createElement('li');
-      li.className = 'alarm-item';
+      li.className = 'alarm-item fade-in-scale';
+      li.style.animationDelay = `${index * 0.1}s`;
       
       const timeString = `${alarm.hour.toString().padStart(2, '0')}:${alarm.minute.toString().padStart(2, '0')}`;
       

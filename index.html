@@ -71,6 +71,9 @@
         <div class="current-time">
           <div class="time-display" id="current-time"></div>
           <div class="date-display" id="current-date"></div>
+          <button class="fullscreen-btn" id="clock-fullscreen" title="Fullscreen Clock">
+            <i class="fas fa-expand"></i>
+          </button>
         </div>
         
         <div class="timer-controls">
@@ -89,7 +92,12 @@
             </div>
           </div>
           
-          <div class="timer-display" id="timer-display">25:00</div>
+          <div class="timer-display-container">
+            <div class="timer-display" id="timer-display">25:00</div>
+            <button class="fullscreen-btn" id="timer-fullscreen" title="Fullscreen Timer">
+              <i class="fas fa-expand"></i>
+            </button>
+          </div>
           
           <div class="timer-buttons">
             <button class="timer-btn start" id="timer-start">
@@ -125,7 +133,12 @@
     <!-- Stopwatch Section -->
     <div class="tab-content" id="stopwatch-tab">
       <div class="stopwatch-section">
-        <div class="stopwatch-display" id="stopwatch-display">00:00:00</div>
+        <div class="stopwatch-display-container">
+          <div class="stopwatch-display" id="stopwatch-display">00:00:00</div>
+          <button class="fullscreen-btn" id="stopwatch-fullscreen" title="Fullscreen Stopwatch">
+            <i class="fas fa-expand"></i>
+          </button>
+        </div>
         
         <div class="stopwatch-buttons">
           <button class="timer-btn start" id="stopwatch-start">
@@ -181,6 +194,78 @@
           <h3>Active Alarms</h3>
           <ul id="alarms-list" class="alarms-list"></ul>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Clock -->
+  <div class="fullscreen-overlay" id="clock-fullscreen-overlay">
+    <div class="fullscreen-content clock-fullscreen">
+      <button class="fullscreen-close" id="clock-fullscreen-close">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="fullscreen-time" id="fullscreen-time"></div>
+      <div class="fullscreen-date" id="fullscreen-date"></div>
+      <div class="clock-animation">
+        <div class="clock-circle"></div>
+        <div class="clock-circle"></div>
+        <div class="clock-circle"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Timer -->
+  <div class="fullscreen-overlay" id="timer-fullscreen-overlay">
+    <div class="fullscreen-content timer-fullscreen">
+      <button class="fullscreen-close" id="timer-fullscreen-close">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="fullscreen-timer" id="fullscreen-timer">25:00</div>
+      <div class="timer-progress-ring">
+        <svg class="progress-ring" width="300" height="300">
+          <circle class="progress-ring-circle" cx="150" cy="150" r="140" stroke="#e0e0e0" stroke-width="8" fill="transparent"/>
+          <circle class="progress-ring-progress" cx="150" cy="150" r="140" stroke="#4facfe" stroke-width="8" fill="transparent" stroke-dasharray="879.646" stroke-dashoffset="879.646"/>
+        </svg>
+      </div>
+      <div class="fullscreen-timer-controls">
+        <button class="fullscreen-timer-btn start" id="fullscreen-timer-start">
+          <i class="fas fa-play"></i>
+        </button>
+        <button class="fullscreen-timer-btn pause" id="fullscreen-timer-pause">
+          <i class="fas fa-pause"></i>
+        </button>
+        <button class="fullscreen-timer-btn reset" id="fullscreen-timer-reset">
+          <i class="fas fa-stop"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Stopwatch -->
+  <div class="fullscreen-overlay" id="stopwatch-fullscreen-overlay">
+    <div class="fullscreen-content stopwatch-fullscreen">
+      <button class="fullscreen-close" id="stopwatch-fullscreen-close">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="fullscreen-stopwatch" id="fullscreen-stopwatch">00:00:00</div>
+      <div class="stopwatch-animation">
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+      </div>
+      <div class="fullscreen-stopwatch-controls">
+        <button class="fullscreen-timer-btn start" id="fullscreen-stopwatch-start">
+          <i class="fas fa-play"></i>
+        </button>
+        <button class="fullscreen-timer-btn pause" id="fullscreen-stopwatch-pause">
+          <i class="fas fa-pause"></i>
+        </button>
+        <button class="fullscreen-timer-btn reset" id="fullscreen-stopwatch-reset">
+          <i class="fas fa-stop"></i>
+        </button>
+        <button class="fullscreen-timer-btn lap" id="fullscreen-stopwatch-lap">
+          <i class="fas fa-flag"></i>
+        </button>
       </div>
     </div>
   </div>
