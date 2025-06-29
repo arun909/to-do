@@ -17,10 +17,6 @@ class ModernTodoApp {
     this.stopwatchRunning = false;
     this.lapTimes = [];
     
-    // Alarm states
-    this.alarms = JSON.parse(localStorage.getItem('alarms')) || [];
-    this.alarmCheckInterval = null;
-    
     // Break timer states
     this.breakInterval = null;
     this.breakTimer = null;
@@ -54,7 +50,6 @@ class ModernTodoApp {
     this.renderTasks();
     this.updateProgress();
     this.startClock();
-    this.startAlarmChecker();
     this.makeDraggable();
     this.loadBreakTimer();
     this.bindFullscreenEvents();
@@ -97,18 +92,12 @@ class ModernTodoApp {
     document.getElementById('stopwatch-reset').addEventListener('click', () => this.resetStopwatch());
     document.getElementById('stopwatch-lap').addEventListener('click', () => this.addLap());
     
-    // Alarm events
-    document.getElementById('alarm-set').addEventListener('click', () => this.setAlarm());
-    document.getElementById('alarm-cancel').addEventListener('click', () => this.cancelAlarms());
-    
     // Break timer events
     document.getElementById('break-interval').addEventListener('change', (e) => this.setBreakTimer(e.target.value));
     
     // Modal events
     document.getElementById('close-quote').addEventListener('click', () => this.closeQuoteModal());
     document.getElementById('dismiss-quote').addEventListener('click', () => this.closeQuoteModal());
-    document.getElementById('dismiss-alarm').addEventListener('click', () => this.dismissAlarm());
-    document.getElementById('snooze-alarm').addEventListener('click', () => this.snoozeAlarm());
   }
   
   bindFullscreenEvents() {
@@ -598,122 +587,6 @@ class ModernTodoApp {
       `;
       lapsList.appendChild(li);
     });
-  }
-  
-  // Alarm
-  setAlarm() {
-    const hour = parseInt(document.getElementById('alarm-hour').value);
-    const minute = parseInt(document.getElementById('alarm-minute').value);
-    
-    const alarm = {
-      id: Date.now(),
-      hour,
-      minute,
-      active: true
-    };
-    
-    this.alarms.push(alarm);
-    this.saveAlarms();
-    this.renderAlarms();
-    this.updateAlarmStatus();
-  }
-  
-  cancelAlarms() {
-    this.alarms = [];
-    this.saveAlarms();
-    this.renderAlarms();
-    this.updateAlarmStatus();
-  }
-  
-  removeAlarm(id) {
-    this.alarms = this.alarms.filter(alarm => alarm.id !== id);
-    this.saveAlarms();
-    this.renderAlarms();
-    this.updateAlarmStatus();
-  }
-  
-  renderAlarms() {
-    const alarmsList = document.getElementById('alarms-list');
-    alarmsList.innerHTML = '';
-    
-    this.alarms.forEach((alarm, index) => {
-      const li = document.createElement('li');
-      li.className = 'alarm-item fade-in-scale';
-      li.style.animationDelay = `${index * 0.1}s`;
-      
-      const timeString = `${alarm.hour.toString().padStart(2, '0')}:${alarm.minute.toString().padStart(2, '0')}`;
-      
-      li.innerHTML = `
-        <div class="alarm-time">${timeString}</div>
-        <button class="alarm-remove" onclick="app.removeAlarm(${alarm.id})">
-          <i class="fas fa-trash"></i>
-        </button>
-      `;
-      
-      alarmsList.appendChild(li);
-    });
-  }
-  
-  updateAlarmStatus() {
-    const statusDiv = document.getElementById('alarm-status');
-    
-    if (this.alarms.length > 0) {
-      statusDiv.textContent = `${this.alarms.length} alarm(s) set`;
-      statusDiv.className = 'alarm-status active';
-    } else {
-      statusDiv.textContent = 'No alarms set';
-      statusDiv.className = 'alarm-status inactive';
-    }
-  }
-  
-  startAlarmChecker() {
-    this.alarmCheckInterval = setInterval(() => {
-      const now = new Date();
-      const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
-      const currentSecond = now.getSeconds();
-      
-      if (currentSecond === 0) { // Check only at the start of each minute
-        this.alarms.forEach(alarm => {
-          if (alarm.active && alarm.hour === currentHour && alarm.minute === currentMinute) {
-            this.triggerAlarm(alarm);
-          }
-        });
-      }
-    }, 1000);
-  }
-  
-  triggerAlarm(alarm) {
-    const timeString = `${alarm.hour.toString().padStart(2, '0')}:${alarm.minute.toString().padStart(2, '0')}`;
-    document.getElementById('alarm-time-display').textContent = timeString;
-    document.getElementById('alarm-modal').classList.add('show');
-    this.playAlarmSound();
-  }
-  
-  dismissAlarm() {
-    document.getElementById('alarm-modal').classList.remove('show');
-  }
-  
-  snoozeAlarm() {
-    const now = new Date();
-    const snoozeTime = new Date(now.getTime() + 5 * 60000); // 5 minutes
-    
-    const snoozeAlarm = {
-      id: Date.now(),
-      hour: snoozeTime.getHours(),
-      minute: snoozeTime.getMinutes(),
-      active: true
-    };
-    
-    this.alarms.push(snoozeAlarm);
-    this.saveAlarms();
-    this.renderAlarms();
-    this.updateAlarmStatus();
-    this.dismissAlarm();
-  }
-  
-  saveAlarms() {
-    localStorage.setItem('alarms', JSON.stringify(this.alarms));
   }
   
   // Break Timer
