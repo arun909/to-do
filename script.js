@@ -1,10 +1,11 @@
-class ModernTodoApp {
+class RoboFlowApp {
   constructor() {
     this.tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     this.currentFilter = 'all';
     this.isFloating = false;
     this.isMinimized = false;
     this.isDarkTheme = localStorage.getItem('theme') === 'light' ? false : true;
+    this.currentSection = 'main';
     
     // Timer states
     this.timerInterval = null;
@@ -22,25 +23,26 @@ class ModernTodoApp {
     this.breakInterval = null;
     this.breakTimer = null;
     
-    // Fullscreen states
-    this.isFullscreen = false;
-    this.currentFullscreen = null;
-    
-    // Dragging states
-    this.isDragging = false;
-    this.dragOffset = { x: 0, y: 0 };
+    // Clock states
+    this.clockInterval = null;
+    this.quoteInterval = null;
     
     this.motivationalQuotes = [
-      { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
-      { text: "Don't be afraid to give up the good to go for the great.", author: "John D. Rockefeller" },
-      { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
       { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
-      { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+      { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
       { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+      { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+      { text: "Don't be afraid to give up the good to go for the great.", author: "John D. Rockefeller" },
+      { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
       { text: "Life is what happens to you while you're busy making other plans.", author: "John Lennon" },
-      { text: "The future belongs to those who prepare for it today.", author: "Malcolm X" },
       { text: "It is during our darkest moments that we must focus to see the light.", author: "Aristotle" },
-      { text: "Success is not how high you have climbed, but how you make a positive difference to the world.", author: "Roy T. Bennett" }
+      { text: "Success is not how high you have climbed, but how you make a positive difference to the world.", author: "Roy T. Bennett" },
+      { text: "The future belongs to those who prepare for it today.", author: "Malcolm X" },
+      { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+      { text: "The only impossible journey is the one you never begin.", author: "Tony Robbins" },
+      { text: "In the middle of difficulty lies opportunity.", author: "Albert Einstein" },
+      { text: "Success is walking from failure to failure with no loss of enthusiasm.", author: "Winston Churchill" },
+      { text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb" }
     ];
     
     this.init();
@@ -52,9 +54,10 @@ class ModernTodoApp {
     this.renderTasks();
     this.updateProgress();
     this.startClock();
+    this.startAnalogClock();
     this.makeDraggable();
-    this.loadBreakTimer();
-    this.bindFullscreenEvents();
+    this.showRandomQuote();
+    this.startQuoteRotation();
   }
   
   applyTheme() {
@@ -83,9 +86,19 @@ class ModernTodoApp {
   }
   
   bindEvents() {
-    // Tab switching
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
+    // Navigation events
+    document.querySelectorAll('.nav-option').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const section = e.currentTarget.dataset.section;
+        this.showSection(section);
+      });
+    });
+    
+    document.querySelectorAll('.back-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const backTo = e.currentTarget.dataset.back;
+        this.showSection(backTo);
+      });
     });
     
     // Todo events
@@ -120,131 +133,27 @@ class ModernTodoApp {
     document.getElementById('stopwatch-reset').addEventListener('click', () => this.resetStopwatch());
     document.getElementById('stopwatch-lap').addEventListener('click', () => this.addLap());
     
-    // Break timer events
-    document.getElementById('break-interval').addEventListener('change', (e) => this.setBreakTimer(e.target.value));
-    
     // Modal events
     document.getElementById('close-quote').addEventListener('click', () => this.closeQuoteModal());
     document.getElementById('dismiss-quote').addEventListener('click', () => this.closeQuoteModal());
   }
   
-  bindFullscreenEvents() {
-    // Fullscreen buttons
-    document.getElementById('clock-fullscreen').addEventListener('click', () => this.openFullscreen('clock'));
-    document.getElementById('timer-fullscreen').addEventListener('click', () => this.openFullscreen('timer'));
-    document.getElementById('stopwatch-fullscreen').addEventListener('click', () => this.openFullscreen('stopwatch'));
-    
-    // Fullscreen close buttons
-    document.getElementById('clock-fullscreen-close').addEventListener('click', () => this.closeFullscreen());
-    document.getElementById('timer-fullscreen-close').addEventListener('click', () => this.closeFullscreen());
-    document.getElementById('stopwatch-fullscreen-close').addEventListener('click', () => this.closeFullscreen());
-    
-    // Fullscreen timer controls
-    document.getElementById('fullscreen-timer-start').addEventListener('click', () => this.startTimer());
-    document.getElementById('fullscreen-timer-pause').addEventListener('click', () => this.pauseTimer());
-    document.getElementById('fullscreen-timer-reset').addEventListener('click', () => this.resetTimer());
-    
-    // Fullscreen stopwatch controls
-    document.getElementById('fullscreen-stopwatch-start').addEventListener('click', () => this.startStopwatch());
-    document.getElementById('fullscreen-stopwatch-pause').addEventListener('click', () => this.pauseStopwatch());
-    document.getElementById('fullscreen-stopwatch-reset').addEventListener('click', () => this.resetStopwatch());
-    document.getElementById('fullscreen-stopwatch-lap').addEventListener('click', () => this.addLap());
-    
-    // ESC key to close fullscreen
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.isFullscreen) {
-        this.closeFullscreen();
-      }
-    });
-  }
-  
-  // Fullscreen Management
-  openFullscreen(type) {
-    this.isFullscreen = true;
-    this.currentFullscreen = type;
-    
-    const overlay = document.getElementById(`${type}-fullscreen-overlay`);
-    overlay.classList.add('show');
-    
-    // Update fullscreen displays
-    if (type === 'clock') {
-      this.updateFullscreenClock();
-    } else if (type === 'timer') {
-      this.updateFullscreenTimer();
-    } else if (type === 'stopwatch') {
-      this.updateFullscreenStopwatch();
-    }
-    
-    // Add animation class
-    overlay.querySelector('.fullscreen-content').classList.add('fade-in-scale');
-  }
-  
-  closeFullscreen() {
-    if (!this.isFullscreen) return;
-    
-    const overlay = document.getElementById(`${this.currentFullscreen}-fullscreen-overlay`);
-    overlay.classList.remove('show');
-    
-    this.isFullscreen = false;
-    this.currentFullscreen = null;
-  }
-  
-  updateFullscreenClock() {
-    const now = new Date();
-    const timeString = now.toLocaleTimeString();
-    const dateString = now.toLocaleDateString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+  // Navigation Management
+  showSection(sectionName) {
+    // Hide all sections
+    document.getElementById('main-clock').style.display = 'none';
+    document.querySelectorAll('.section-content').forEach(section => {
+      section.classList.remove('active');
     });
     
-    document.getElementById('fullscreen-time').textContent = timeString;
-    document.getElementById('fullscreen-date').textContent = dateString;
-  }
-  
-  updateFullscreenTimer() {
-    const hours = Math.floor(this.timerTime / 3600);
-    const minutes = Math.floor((this.timerTime % 3600) / 60);
-    const seconds = this.timerTime % 60;
-    
-    const display = hours > 0 
-      ? `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-      : `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    
-    document.getElementById('fullscreen-timer').textContent = display;
-    
-    // Update progress ring
-    if (this.timerTotalTime > 0) {
-      const progress = ((this.timerTotalTime - this.timerTime) / this.timerTotalTime) * 1130.97;
-      const progressCircle = document.querySelector('.progress-ring-progress');
-      progressCircle.style.strokeDashoffset = 1130.97 - progress;
+    // Show requested section
+    if (sectionName === 'main') {
+      document.getElementById('main-clock').style.display = 'block';
+    } else {
+      document.getElementById(`${sectionName}-section`).classList.add('active');
     }
-  }
-  
-  updateFullscreenStopwatch() {
-    const totalMs = this.stopwatchTime * 10;
-    const minutes = Math.floor(totalMs / 60000);
-    const seconds = Math.floor((totalMs % 60000) / 1000);
-    const milliseconds = Math.floor((totalMs % 1000) / 10);
     
-    const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
-    document.getElementById('fullscreen-stopwatch').textContent = display;
-  }
-  
-  // Tab Management
-  switchTab(tabName) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    
-    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-    document.getElementById(`${tabName}-tab`).classList.add('active');
-    
-    // Add bounce animation to active tab
-    document.querySelector(`[data-tab="${tabName}"]`).classList.add('bounce');
-    setTimeout(() => {
-      document.querySelector(`[data-tab="${tabName}"]`).classList.remove('bounce');
-    }, 1000);
+    this.currentSection = sectionName;
   }
   
   // Window Controls
@@ -276,14 +185,17 @@ class ModernTodoApp {
     const header = document.querySelector('.header');
     const container = document.getElementById('app-container');
     
+    let isDragging = false;
+    let dragOffset = { x: 0, y: 0 };
+    
     header.addEventListener('mousedown', (e) => this.startDrag(e, container));
     header.addEventListener('touchstart', (e) => this.startDrag(e.touches[0], container));
     
     document.addEventListener('mousemove', (e) => this.drag(e, container));
     document.addEventListener('touchmove', (e) => this.drag(e.touches[0], container));
     
-    document.addEventListener('mouseup', () => this.endDrag());
-    document.addEventListener('touchend', () => this.endDrag());
+    document.addEventListener('mouseup', () => this.endDrag(container));
+    document.addEventListener('touchend', () => this.endDrag(container));
   }
   
   startDrag(e, container) {
@@ -291,8 +203,10 @@ class ModernTodoApp {
     
     this.isDragging = true;
     const rect = container.getBoundingClientRect();
-    this.dragOffset.x = e.clientX - rect.left;
-    this.dragOffset.y = e.clientY - rect.top;
+    this.dragOffset = {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
     
     container.style.cursor = 'grabbing';
     container.style.transition = 'none';
@@ -319,13 +233,85 @@ class ModernTodoApp {
     container.style.transform = 'none';
   }
   
-  endDrag() {
+  endDrag(container) {
     if (!this.isDragging) return;
     
     this.isDragging = false;
-    const container = document.getElementById('app-container');
     container.style.cursor = 'move';
     container.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+  }
+  
+  // Clock Functions
+  startClock() {
+    this.updateDigitalClock();
+    this.clockInterval = setInterval(() => {
+      this.updateDigitalClock();
+    }, 1000);
+  }
+  
+  updateDigitalClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    const dateString = now.toLocaleDateString('en-US', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    
+    document.getElementById('digital-time').textContent = timeString;
+    document.getElementById('digital-date').textContent = dateString;
+  }
+  
+  startAnalogClock() {
+    this.updateAnalogClock();
+    setInterval(() => {
+      this.updateAnalogClock();
+    }, 1000);
+  }
+  
+  updateAnalogClock() {
+    const now = new Date();
+    const hours = now.getHours() % 12;
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    
+    const hourAngle = (hours * 30) + (minutes * 0.5);
+    const minuteAngle = minutes * 6;
+    const secondAngle = seconds * 6;
+    
+    const hourHand = document.getElementById('hour-hand');
+    const minuteHand = document.getElementById('minute-hand');
+    const secondHand = document.getElementById('second-hand');
+    
+    if (hourHand) hourHand.style.transform = `rotate(${hourAngle}deg)`;
+    if (minuteHand) minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
+    if (secondHand) secondHand.style.transform = `rotate(${secondAngle}deg)`;
+  }
+  
+  // Quote Management
+  showRandomQuote() {
+    const randomQuote = this.motivationalQuotes[Math.floor(Math.random() * this.motivationalQuotes.length)];
+    document.getElementById('main-quote-text').textContent = randomQuote.text;
+    document.getElementById('main-quote-author').textContent = `— ${randomQuote.author}`;
+  }
+  
+  startQuoteRotation() {
+    this.quoteInterval = setInterval(() => {
+      this.showRandomQuote();
+    }, 30000); // Change quote every 30 seconds
+  }
+  
+  showMotivationalQuote() {
+    const randomQuote = this.motivationalQuotes[Math.floor(Math.random() * this.motivationalQuotes.length)];
+    
+    document.getElementById('quote-text').textContent = randomQuote.text;
+    document.getElementById('quote-author').textContent = `— ${randomQuote.author}`;
+    document.getElementById('quote-modal').classList.add('show');
+  }
+  
+  closeQuoteModal() {
+    document.getElementById('quote-modal').classList.remove('show');
   }
   
   // Todo Management
@@ -446,32 +432,7 @@ class ModernTodoApp {
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
   }
   
-  // Clock
-  startClock() {
-    this.updateClock();
-    setInterval(() => {
-      this.updateClock();
-      if (this.isFullscreen && this.currentFullscreen === 'clock') {
-        this.updateFullscreenClock();
-      }
-    }, 1000);
-  }
-  
-  updateClock() {
-    const now = new Date();
-    const timeString = now.toLocaleTimeString();
-    const dateString = now.toLocaleDateString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-    
-    document.getElementById('current-time').textContent = timeString;
-    document.getElementById('current-date').textContent = dateString;
-  }
-  
-  // Timer
+  // Timer Functions
   updateTimerDisplay() {
     const hours = parseInt(document.getElementById('timer-hours').value) || 0;
     const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
@@ -493,8 +454,13 @@ class ModernTodoApp {
     
     document.getElementById('timer-display').textContent = display;
     
-    if (this.isFullscreen && this.currentFullscreen === 'timer') {
-      this.updateFullscreenTimer();
+    // Update progress ring
+    if (this.timerTotalTime > 0) {
+      const progress = ((this.timerTotalTime - this.timerTime) / this.timerTotalTime) * 879.646;
+      const progressCircle = document.querySelector('.progress-ring-progress');
+      if (progressCircle) {
+        progressCircle.style.strokeDashoffset = 879.646 - progress;
+      }
     }
   }
   
@@ -537,17 +503,10 @@ class ModernTodoApp {
     this.pauseTimer();
     this.showNotification('Timer Complete!', 'Your timer has finished.');
     this.playAlarmSound();
-    
-    // Add completion animation
-    if (this.isFullscreen && this.currentFullscreen === 'timer') {
-      document.getElementById('fullscreen-timer').classList.add('bounce');
-      setTimeout(() => {
-        document.getElementById('fullscreen-timer').classList.remove('bounce');
-      }, 1000);
-    }
+    this.showMotivationalQuote();
   }
   
-  // Stopwatch
+  // Stopwatch Functions
   startStopwatch() {
     if (!this.stopwatchRunning) {
       this.stopwatchRunning = true;
@@ -582,10 +541,6 @@ class ModernTodoApp {
     
     const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
     document.getElementById('stopwatch-display').textContent = display;
-    
-    if (this.isFullscreen && this.currentFullscreen === 'stopwatch') {
-      this.updateFullscreenStopwatch();
-    }
   }
   
   addLap() {
@@ -617,45 +572,6 @@ class ModernTodoApp {
     });
   }
   
-  // Break Timer
-  setBreakTimer(minutes) {
-    if (this.breakTimer) {
-      clearInterval(this.breakTimer);
-      this.breakTimer = null;
-    }
-    
-    if (minutes > 0) {
-      const intervalMs = minutes * 60 * 1000;
-      this.breakTimer = setInterval(() => {
-        this.showMotivationalQuote();
-      }, intervalMs);
-      
-      localStorage.setItem('breakInterval', minutes);
-    } else {
-      localStorage.removeItem('breakInterval');
-    }
-  }
-  
-  loadBreakTimer() {
-    const savedInterval = localStorage.getItem('breakInterval');
-    if (savedInterval) {
-      document.getElementById('break-interval').value = savedInterval;
-      this.setBreakTimer(parseInt(savedInterval));
-    }
-  }
-  
-  showMotivationalQuote() {
-    const randomQuote = this.motivationalQuotes[Math.floor(Math.random() * this.motivationalQuotes.length)];
-    
-    document.getElementById('quote-text').textContent = randomQuote.text;
-    document.getElementById('quote-author').textContent = `— ${randomQuote.author}`;
-    document.getElementById('quote-modal').classList.add('show');
-  }
-  
-  closeQuoteModal() {
-    document.getElementById('quote-modal').classList.remove('show');
-  }
-  
   // Utility functions
   showNotification(title, message) {
     if ('Notification' in window && Notification.permission === 'granted') {
@@ -671,26 +587,30 @@ class ModernTodoApp {
   
   playAlarmSound() {
     // Create a simple beep sound using Web Audio API
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.value = 800;
-    oscillator.type = 'sine';
-    
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 1);
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 800;
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 1);
+    } catch (error) {
+      console.log('Audio not supported');
+    }
   }
 }
 
 // Initialize the app
-const app = new ModernTodoApp();
+const app = new RoboFlowApp();
 
 // Request notification permission on load
 if ('Notification' in window && Notification.permission === 'default') {
