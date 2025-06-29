@@ -33,9 +33,6 @@
       <button class="tab-btn" data-tab="stopwatch">
         <i class="fas fa-stopwatch"></i> Stopwatch
       </button>
-      <button class="tab-btn" data-tab="alarm">
-        <i class="fas fa-bell"></i> Alarm
-      </button>
     </div>
 
     <!-- To-Do Section -->
@@ -161,41 +158,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Alarm Section -->
-    <div class="tab-content" id="alarm-tab">
-      <div class="alarm-section">
-        <div class="alarm-set">
-          <h3><i class="fas fa-bell"></i> Set Alarm</h3>
-          <div class="alarm-inputs">
-            <div class="time-input-group">
-              <label>Hour</label>
-              <input type="number" id="alarm-hour" min="0" max="23" value="7">
-            </div>
-            <div class="time-input-group">
-              <label>Minute</label>
-              <input type="number" id="alarm-minute" min="0" max="59" value="0">
-            </div>
-          </div>
-          
-          <div class="alarm-controls">
-            <button class="timer-btn start" id="alarm-set">
-              <i class="fas fa-bell"></i> Set Alarm
-            </button>
-            <button class="timer-btn reset" id="alarm-cancel">
-              <i class="fas fa-bell-slash"></i> Cancel
-            </button>
-          </div>
-          
-          <div class="alarm-status" id="alarm-status"></div>
-        </div>
-        
-        <div class="active-alarms">
-          <h3>Active Alarms</h3>
-          <ul id="alarms-list" class="alarms-list"></ul>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- Fullscreen Clock -->
@@ -291,23 +253,6 @@
       </div>
       <div class="modal-footer">
         <button class="timer-btn" id="dismiss-quote">Got it!</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Alarm Alert Modal -->
-  <div class="modal-overlay" id="alarm-modal">
-    <div class="modal-content alarm-alert">
-      <div class="modal-header">
-        <h3><i class="fas fa-bell"></i> Alarm!</h3>
-      </div>
-      <div class="modal-body">
-        <p>Your alarm is ringing!</p>
-        <div class="alarm-time" id="alarm-time-display"></div>
-      </div>
-      <div class="modal-footer">
-        <button class="timer-btn" id="dismiss-alarm">Dismiss</button>
-        <button class="timer-btn" id="snooze-alarm">Snooze (5 min)</button>
       </div>
     </div>
   </div>
