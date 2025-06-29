@@ -1013,30 +1013,20 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* Fullscreen Timer - Car Meter Inspired Design */
+/* Fullscreen Timer - RPM Meter Style */
 .fullscreen-timer {
-  font-size: 6rem;
-  font-weight: 200;
+  font-size: 5rem;
+  font-weight: 300;
   margin-bottom: 40px;
-  text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
   position: relative;
   z-index: 2;
-  color: #00ffff;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 0.1em;
-  animation: timerGlow 2s ease-in-out infinite alternate;
+  color: #ffffff;
+  font-family: 'Arial', sans-serif;
+  letter-spacing: 0.05em;
 }
 
-@keyframes timerGlow {
-  from { 
-    text-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.3);
-  }
-  to { 
-    text-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.5);
-  }
-}
-
-/* Car Meter Style Progress Ring */
+/* RPM Meter Progress Ring */
 .timer-progress-ring {
   position: absolute;
   top: 50%;
@@ -1047,80 +1037,188 @@ body {
 
 .progress-ring {
   transform: rotate(-90deg);
-  filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.4));
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
 }
 
 .progress-ring-circle {
   stroke: rgba(255, 255, 255, 0.1);
-  stroke-width: 8;
+  stroke-width: 12;
 }
 
 .progress-ring-progress {
-  stroke: #00ffff;
-  stroke-width: 8;
+  stroke: #ff4444;
+  stroke-width: 12;
   stroke-linecap: round;
   transition: stroke-dashoffset 1s ease;
-  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.8));
-  animation: progressGlow 2s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 20px rgba(255, 68, 68, 0.8));
 }
 
-@keyframes progressGlow {
-  from { 
-    stroke: #00ffff;
-    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.8));
-  }
-  to { 
-    stroke: #00e6e6;
-    filter: drop-shadow(0 0 20px rgba(0, 255, 255, 1));
-  }
-}
-
-/* Car Dashboard Style Background */
+/* RPM Meter Background with Tick Marks */
 .timer-fullscreen::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.05) 0%, transparent 50%),
-    linear-gradient(0deg, rgba(0, 255, 255, 0.02) 0%, transparent 100%);
-  z-index: 0;
-  animation: dashboardPulse 4s ease-in-out infinite;
-}
-
-@keyframes dashboardPulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
-}
-
-/* Meter Tick Marks */
-.timer-fullscreen::after {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 500px;
-  height: 500px;
-  margin: -250px 0 0 -250px;
-  border: 2px solid rgba(0, 255, 255, 0.2);
+  width: 450px;
+  height: 450px;
+  margin: -225px 0 0 -225px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   z-index: 0;
   background: 
-    repeating-conic-gradient(
+    conic-gradient(
       from 0deg,
       transparent 0deg,
-      transparent 8deg,
-      rgba(0, 255, 255, 0.3) 8deg,
-      rgba(0, 255, 255, 0.3) 10deg
+      transparent 10deg,
+      rgba(255, 255, 255, 0.4) 10deg,
+      rgba(255, 255, 255, 0.4) 12deg,
+      transparent 12deg,
+      transparent 22deg,
+      rgba(255, 255, 255, 0.4) 22deg,
+      rgba(255, 255, 255, 0.4) 24deg,
+      transparent 24deg,
+      transparent 34deg,
+      rgba(255, 255, 255, 0.4) 34deg,
+      rgba(255, 255, 255, 0.4) 36deg,
+      transparent 36deg,
+      transparent 46deg,
+      rgba(255, 255, 255, 0.4) 46deg,
+      rgba(255, 255, 255, 0.4) 48deg,
+      transparent 48deg,
+      transparent 58deg,
+      rgba(255, 255, 255, 0.4) 58deg,
+      rgba(255, 255, 255, 0.4) 60deg,
+      transparent 60deg,
+      transparent 70deg,
+      rgba(255, 255, 255, 0.4) 70deg,
+      rgba(255, 255, 255, 0.4) 72deg,
+      transparent 72deg,
+      transparent 82deg,
+      rgba(255, 255, 255, 0.4) 82deg,
+      rgba(255, 255, 255, 0.4) 84deg,
+      transparent 84deg,
+      transparent 94deg,
+      rgba(255, 255, 255, 0.4) 94deg,
+      rgba(255, 255, 255, 0.4) 96deg,
+      transparent 96deg,
+      transparent 106deg,
+      rgba(255, 255, 255, 0.4) 106deg,
+      rgba(255, 255, 255, 0.4) 108deg,
+      transparent 108deg,
+      transparent 118deg,
+      rgba(255, 255, 255, 0.4) 118deg,
+      rgba(255, 255, 255, 0.4) 120deg,
+      transparent 120deg,
+      transparent 130deg,
+      rgba(255, 255, 255, 0.4) 130deg,
+      rgba(255, 255, 255, 0.4) 132deg,
+      transparent 132deg,
+      transparent 142deg,
+      rgba(255, 255, 255, 0.4) 142deg,
+      rgba(255, 255, 255, 0.4) 144deg,
+      transparent 144deg,
+      transparent 154deg,
+      rgba(255, 255, 255, 0.4) 154deg,
+      rgba(255, 255, 255, 0.4) 156deg,
+      transparent 156deg,
+      transparent 166deg,
+      rgba(255, 255, 255, 0.4) 166deg,
+      rgba(255, 255, 255, 0.4) 168deg,
+      transparent 168deg,
+      transparent 178deg,
+      rgba(255, 255, 255, 0.4) 178deg,
+      rgba(255, 255, 255, 0.4) 180deg,
+      transparent 180deg,
+      transparent 190deg,
+      rgba(255, 255, 255, 0.4) 190deg,
+      rgba(255, 255, 255, 0.4) 192deg,
+      transparent 192deg,
+      transparent 202deg,
+      rgba(255, 255, 255, 0.4) 202deg,
+      rgba(255, 255, 255, 0.4) 204deg,
+      transparent 204deg,
+      transparent 214deg,
+      rgba(255, 255, 255, 0.4) 214deg,
+      rgba(255, 255, 255, 0.4) 216deg,
+      transparent 216deg,
+      transparent 226deg,
+      rgba(255, 255, 255, 0.4) 226deg,
+      rgba(255, 255, 255, 0.4) 228deg,
+      transparent 228deg,
+      transparent 238deg,
+      rgba(255, 255, 255, 0.4) 238deg,
+      rgba(255, 255, 255, 0.4) 240deg,
+      transparent 240deg,
+      transparent 250deg,
+      rgba(255, 255, 255, 0.4) 250deg,
+      rgba(255, 255, 255, 0.4) 252deg,
+      transparent 252deg,
+      transparent 262deg,
+      rgba(255, 255, 255, 0.4) 262deg,
+      rgba(255, 255, 255, 0.4) 264deg,
+      transparent 264deg,
+      transparent 274deg,
+      rgba(255, 255, 255, 0.4) 274deg,
+      rgba(255, 255, 255, 0.4) 276deg,
+      transparent 276deg,
+      transparent 286deg,
+      rgba(255, 255, 255, 0.4) 286deg,
+      rgba(255, 255, 255, 0.4) 288deg,
+      transparent 288deg,
+      transparent 298deg,
+      rgba(255, 255, 255, 0.4) 298deg,
+      rgba(255, 255, 255, 0.4) 300deg,
+      transparent 300deg,
+      transparent 310deg,
+      rgba(255, 255, 255, 0.4) 310deg,
+      rgba(255, 255, 255, 0.4) 312deg,
+      transparent 312deg,
+      transparent 322deg,
+      rgba(255, 255, 255, 0.4) 322deg,
+      rgba(255, 255, 255, 0.4) 324deg,
+      transparent 324deg,
+      transparent 334deg,
+      rgba(255, 255, 255, 0.4) 334deg,
+      rgba(255, 255, 255, 0.4) 336deg,
+      transparent 336deg,
+      transparent 346deg,
+      rgba(255, 255, 255, 0.4) 346deg,
+      rgba(255, 255, 255, 0.4) 348deg,
+      transparent 348deg,
+      transparent 358deg,
+      rgba(255, 255, 255, 0.4) 358deg,
+      rgba(255, 255, 255, 0.4) 360deg
     );
-  animation: meterRotate 20s linear infinite;
 }
 
-@keyframes meterRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/* RPM Meter Numbers */
+.timer-fullscreen::after {
+  content: '0 1 2 3 4 5 6 7 8 9';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 380px;
+  height: 380px;
+  margin: -190px 0 0 -190px;
+  border-radius: 50%;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Arial', sans-serif;
+  letter-spacing: 2rem;
+  text-align: center;
+  line-height: 1;
+}
+
+/* Dashboard Style Background */
+.timer-fullscreen {
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, transparent 100%);
 }
 
 /* Car Style Control Buttons */
@@ -1134,20 +1232,21 @@ body {
 }
 
 .fullscreen-timer-btn {
-  width: 80px;
-  height: 80px;
-  border: 3px solid rgba(0, 255, 255, 0.4);
+  width: 70px;
+  height: 70px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
-  font-family: 'Courier New', monospace;
+  font-family: 'Arial', sans-serif;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .fullscreen-timer-btn::before {
@@ -1157,41 +1256,38 @@ body {
   left: 50%;
   width: 0;
   height: 0;
-  background: radial-gradient(circle, rgba(0, 255, 255, 0.2), transparent);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
   border-radius: 50%;
   transition: all 0.3s ease;
   transform: translate(-50%, -50%);
 }
 
 .fullscreen-timer-btn:hover::before {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
 }
 
 .fullscreen-timer-btn.start {
-  background: rgba(0, 255, 0, 0.1);
   color: #00ff00;
-  border-color: rgba(0, 255, 0, 0.6);
-  box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.1);
+  border-color: rgba(0, 255, 0, 0.5);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
 }
 
 .fullscreen-timer-btn.pause {
-  background: rgba(255, 255, 0, 0.1);
   color: #ffff00;
-  border-color: rgba(255, 255, 0, 0.6);
-  box-shadow: 0 0 20px rgba(255, 255, 0, 0.3), inset 0 0 20px rgba(255, 255, 0, 0.1);
+  border-color: rgba(255, 255, 0, 0.5);
+  box-shadow: 0 0 15px rgba(255, 255, 0, 0.2);
 }
 
 .fullscreen-timer-btn.reset {
-  background: rgba(255, 0, 0, 0.1);
-  color: #ff0000;
-  border-color: rgba(255, 0, 0, 0.6);
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.3), inset 0 0 20px rgba(255, 0, 0, 0.1);
+  color: #ff4444;
+  border-color: rgba(255, 68, 68, 0.5);
+  box-shadow: 0 0 15px rgba(255, 68, 68, 0.2);
 }
 
 .fullscreen-timer-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 30px currentColor;
+  box-shadow: 0 0 25px currentColor;
 }
 
 .fullscreen-timer-btn:active {
