@@ -460,15 +460,6 @@ class RoboFlowApp {
       : `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     
     document.getElementById('timer-display').textContent = display;
-    
-    // Update progress bar
-    if (this.timerTotalTime > 0) {
-      const progress = ((this.timerTotalTime - this.timerTime) / this.timerTotalTime) * 100;
-      const progressBar = document.querySelector('.timer-progress-bar');
-      if (progressBar) {
-        progressBar.style.width = `${progress}%`;
-      }
-    }
   }
   
   startTimer() {
@@ -504,10 +495,6 @@ class RoboFlowApp {
     this.timerTime = 0;
     this.timerTotalTime = 0;
     this.updateTimerDisplay();
-    const progressBar = document.querySelector('.timer-progress-bar');
-    if (progressBar) {
-      progressBar.style.width = '0%';
-    }
   }
   
   timerComplete() {

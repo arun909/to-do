@@ -663,22 +663,6 @@ body.light-theme {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.timer-progress-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 4px;
-  background: var(--accent-primary);
-  width: 0%;
-  transition: width 0.3s ease;
-  border-radius: 0 0 18px 18px;
-}
-
-.dark-theme .timer-progress-bar {
-  background: linear-gradient(90deg, var(--robot-accent), var(--robot-accent-secondary));
-  box-shadow: 0 0 10px var(--robot-glow);
-}
-
 .time-inputs {
   display: flex;
   gap: 25px;
