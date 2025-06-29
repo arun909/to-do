@@ -4,6 +4,7 @@ class ModernTodoApp {
     this.currentFilter = 'all';
     this.isFloating = false;
     this.isMinimized = false;
+    this.isDarkTheme = localStorage.getItem('theme') === 'light' ? false : true;
     
     // Timer states
     this.timerInterval = null;
@@ -46,6 +47,7 @@ class ModernTodoApp {
   }
   
   init() {
+    this.applyTheme();
     this.bindEvents();
     this.renderTasks();
     this.updateProgress();
@@ -53,6 +55,31 @@ class ModernTodoApp {
     this.makeDraggable();
     this.loadBreakTimer();
     this.bindFullscreenEvents();
+  }
+  
+  applyTheme() {
+    const body = document.body;
+    if (this.isDarkTheme) {
+      body.classList.add('dark-theme');
+      body.classList.remove('light-theme');
+      document.querySelector('#theme-toggle i').className = 'fas fa-sun';
+    } else {
+      body.classList.add('light-theme');
+      body.classList.remove('dark-theme');
+      document.querySelector('#theme-toggle i').className = 'fas fa-moon';
+    }
+  }
+  
+  toggleTheme() {
+    this.isDarkTheme = !this.isDarkTheme;
+    localStorage.setItem('theme', this.isDarkTheme ? 'dark' : 'light');
+    this.applyTheme();
+    
+    // Add theme transition animation
+    document.body.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    setTimeout(() => {
+      document.body.style.transition = '';
+    }, 500);
   }
   
   bindEvents() {
@@ -73,6 +100,7 @@ class ModernTodoApp {
     });
     
     // Window controls
+    document.getElementById('theme-toggle').addEventListener('click', () => this.toggleTheme());
     document.getElementById('float-btn').addEventListener('click', () => this.toggleFloating());
     document.getElementById('minimize-btn').addEventListener('click', () => this.toggleMinimize());
     

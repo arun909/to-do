@@ -7,12 +7,15 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="dark-theme">
   <div class="app-container" id="app-container">
     <!-- Header with controls -->
     <div class="header">
       <h1><i class="fas fa-tasks"></i> TaskFlow</h1>
       <div class="header-controls">
+        <button class="control-btn" id="theme-toggle" title="Toggle Theme">
+          <i class="fas fa-sun"></i>
+        </button>
         <button class="control-btn" id="float-btn" title="Toggle Floating Mode">
           <i class="fas fa-expand-arrows-alt"></i>
         </button>
@@ -187,9 +190,9 @@
         <svg class="progress-ring" width="400" height="400">
           <defs>
             <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#c0c0c0;stop-opacity:1" />
-              <stop offset="50%" style="stop-color:#ffffff;stop-opacity:1" />
-              <stop offset="100%" style="stop-color:#a8a8a8;stop-opacity:1" />
+              <stop offset="0%" class="gradient-stop-1" />
+              <stop offset="50%" class="gradient-stop-2" />
+              <stop offset="100%" class="gradient-stop-3" />
             </linearGradient>
           </defs>
           <circle class="progress-ring-circle" cx="200" cy="200" r="180" stroke="rgba(255,255,255,0.1)" stroke-width="6" fill="transparent"/>
