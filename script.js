@@ -461,12 +461,12 @@ class RoboFlowApp {
     
     document.getElementById('timer-display').textContent = display;
     
-    // Update progress ring
+    // Update progress bar
     if (this.timerTotalTime > 0) {
-      const progress = ((this.timerTotalTime - this.timerTime) / this.timerTotalTime) * 879.646;
-      const progressCircle = document.querySelector('.progress-ring-progress');
-      if (progressCircle) {
-        progressCircle.style.strokeDashoffset = 879.646 - progress;
+      const progress = ((this.timerTotalTime - this.timerTime) / this.timerTotalTime) * 100;
+      const progressBar = document.querySelector('.timer-progress-bar');
+      if (progressBar) {
+        progressBar.style.width = `${progress}%`;
       }
     }
   }
@@ -504,6 +504,10 @@ class RoboFlowApp {
     this.timerTime = 0;
     this.timerTotalTime = 0;
     this.updateTimerDisplay();
+    const progressBar = document.querySelector('.timer-progress-bar');
+    if (progressBar) {
+      progressBar.style.width = '0%';
+    }
   }
   
   timerComplete() {

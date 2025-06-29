@@ -443,11 +443,13 @@ body.light-theme {
   margin-bottom: 14px;
   line-height: 1.6;
   font-weight: 400;
+  font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .dark-theme .quote-text {
   color: var(--robot-text);
   font-weight: 300;
+  font-family: 'Rajdhani', sans-serif;
 }
 
 .quote-author {
@@ -643,51 +645,38 @@ body.light-theme {
   font-weight: 300;
   color: var(--text-primary);
   margin: 30px 0;
+  padding: 40px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
   position: relative;
-  z-index: 2;
+  overflow: hidden;
 }
 
 .dark-theme .timer-display-large {
   font-family: 'Orbitron', monospace;
   font-weight: 700;
   color: var(--robot-accent);
+  background: rgba(42, 42, 42, 0.6);
+  border: 2px solid var(--robot-border);
   text-shadow: 0 0 30px var(--robot-glow);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.timer-progress-ring {
+.timer-progress-bar {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: var(--accent-primary);
+  width: 0%;
+  transition: width 0.3s ease;
+  border-radius: 0 0 18px 18px;
 }
 
-.progress-ring {
-  transform: rotate(-90deg);
-}
-
-.gradient-stop-1 {
-  stop-color: var(--robot-accent);
-}
-
-.gradient-stop-2 {
-  stop-color: var(--robot-accent-secondary);
-}
-
-.gradient-stop-3 {
-  stop-color: var(--robot-accent-tertiary);
-}
-
-.light-theme .gradient-stop-1 {
-  stop-color: var(--accent-primary);
-}
-
-.light-theme .gradient-stop-2 {
-  stop-color: var(--accent-secondary);
-}
-
-.light-theme .gradient-stop-3 {
-  stop-color: var(--accent-primary);
+.dark-theme .timer-progress-bar {
+  background: linear-gradient(90deg, var(--robot-accent), var(--robot-accent-secondary));
+  box-shadow: 0 0 10px var(--robot-glow);
 }
 
 .time-inputs {
@@ -864,6 +853,7 @@ body.light-theme {
   background: var(--bg-secondary);
   border-radius: 20px;
   border: 1px solid var(--border-color);
+  transition: all 0.1s ease;
 }
 
 .dark-theme .stopwatch-display-large {
@@ -1320,10 +1310,12 @@ body.light-theme {
   margin-bottom: 18px;
   line-height: 1.6;
   font-weight: 400;
+  font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .dark-theme .modal-body .quote-text {
   color: var(--robot-text);
+  font-family: 'Rajdhani', sans-serif;
 }
 
 .modal-body .quote-author {

@@ -81,20 +81,9 @@
       </div>
       
       <div class="timer-container">
-        <div class="timer-display-large" id="timer-display">25:00</div>
-        
-        <div class="timer-progress-ring">
-          <svg class="progress-ring" width="300" height="300">
-            <defs>
-              <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" class="gradient-stop-1" />
-                <stop offset="50%" class="gradient-stop-2" />
-                <stop offset="100%" class="gradient-stop-3" />
-              </linearGradient>
-            </defs>
-            <circle class="progress-ring-circle" cx="150" cy="150" r="140" stroke="rgba(0,255,136,0.1)" stroke-width="4" fill="transparent"/>
-            <circle class="progress-ring-progress" cx="150" cy="150" r="140" stroke="url(#timerGradient)" stroke-width="4" fill="transparent" stroke-dasharray="879.646" stroke-dashoffset="879.646"/>
-          </svg>
+        <div class="timer-display-large" id="timer-display">
+          25:00
+          <div class="timer-progress-bar"></div>
         </div>
         
         <div class="time-inputs">
