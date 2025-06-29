@@ -1013,29 +1013,43 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* Fullscreen Timer - Redesigned */
+/* Fullscreen Timer - New Spectacular Animations */
 .fullscreen-timer {
-  font-size: 6rem;
+  font-size: 7rem;
   font-weight: 100;
   margin-bottom: 30px;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 30px rgba(102, 126, 234, 0.8), 0 0 60px rgba(118, 75, 162, 0.6);
   position: relative;
   z-index: 2;
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+  background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: timerPulse 1s ease-in-out infinite alternate;
+  animation: timerSpectacular 2s ease-in-out infinite alternate, gradientFlow 4s ease infinite;
+  filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
 }
 
-@keyframes timerPulse {
-  from { 
-    transform: scale(1);
-    filter: brightness(1);
+@keyframes timerSpectacular {
+  0% { 
+    transform: scale(1) rotateY(0deg);
+    filter: brightness(1) drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
   }
-  to { 
-    transform: scale(1.02);
-    filter: brightness(1.1);
+  50% {
+    transform: scale(1.05) rotateY(5deg);
+    filter: brightness(1.2) drop-shadow(0 0 40px rgba(118, 75, 162, 0.8));
   }
+  100% { 
+    transform: scale(1.08) rotateY(-5deg);
+    filter: brightness(1.3) drop-shadow(0 0 60px rgba(240, 147, 251, 0.9));
+  }
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 100% 50%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 50%; }
 }
 
 .timer-progress-ring {
@@ -1044,48 +1058,97 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
+  animation: ringFloat 6s ease-in-out infinite;
+}
+
+@keyframes ringFloat {
+  0%, 100% { 
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+  33% { 
+    transform: translate(-50%, -50%) rotate(120deg) scale(1.05);
+  }
+  66% { 
+    transform: translate(-50%, -50%) rotate(240deg) scale(0.95);
+  }
 }
 
 .progress-ring {
   transform: rotate(-90deg);
-  filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
+  filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.6));
+  animation: ringGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes ringGlow {
+  from { 
+    filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.6));
+  }
+  to { 
+    filter: drop-shadow(0 0 50px rgba(118, 75, 162, 0.9));
+  }
 }
 
 .progress-ring-circle {
   transition: stroke-dashoffset 0.35s;
   stroke: rgba(255, 255, 255, 0.1);
+  animation: circleBreath 4s ease-in-out infinite;
+}
+
+@keyframes circleBreath {
+  0%, 100% { stroke-width: 12; opacity: 0.3; }
+  50% { stroke-width: 16; opacity: 0.6; }
 }
 
 .progress-ring-progress {
   stroke: url(#timerGradient);
   stroke-linecap: round;
   transition: stroke-dashoffset 1s ease;
+  animation: progressPulse 2s ease-in-out infinite;
+}
+
+@keyframes progressPulse {
+  0%, 100% { 
+    stroke-width: 12;
+    filter: brightness(1);
+  }
+  50% { 
+    stroke-width: 16;
+    filter: brightness(1.3);
+  }
 }
 
 .fullscreen-timer-controls {
   display: flex;
-  gap: 40px;
+  gap: 50px;
   justify-content: center;
   position: relative;
   z-index: 2;
-  margin-top: 50px;
+  margin-top: 80px;
 }
 
 .fullscreen-timer-btn {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  transition: all 0.3s ease;
+  font-size: 1.8rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(20px);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
+  animation: buttonFloat 4s ease-in-out infinite;
+}
+
+@keyframes buttonFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(2deg); }
+  50% { transform: translateY(0px) rotate(0deg); }
+  75% { transform: translateY(-5px) rotate(-2deg); }
 }
 
 .fullscreen-timer-btn::before {
@@ -1095,51 +1158,68 @@ body {
   left: 50%;
   width: 0;
   height: 0;
-  background: rgba(255, 255, 255, 0.2);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
   border-radius: 50%;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
   transform: translate(-50%, -50%);
 }
 
+.fullscreen-timer-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: buttonSpin 3s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+@keyframes buttonSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .fullscreen-timer-btn:hover::before {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
+}
+
+.fullscreen-timer-btn:hover::after {
+  opacity: 1;
 }
 
 .fullscreen-timer-btn.start {
-  background: linear-gradient(135deg, rgba(39, 174, 96, 0.8), rgba(46, 204, 113, 0.8));
+  background: linear-gradient(135deg, rgba(39, 174, 96, 0.9), rgba(46, 204, 113, 0.9));
   color: white;
-  box-shadow: 0 0 30px rgba(39, 174, 96, 0.4);
+  box-shadow: 0 0 40px rgba(39, 174, 96, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .fullscreen-timer-btn.pause {
-  background: linear-gradient(135deg, rgba(243, 156, 18, 0.8), rgba(230, 126, 34, 0.8));
+  background: linear-gradient(135deg, rgba(243, 156, 18, 0.9), rgba(230, 126, 34, 0.9));
   color: white;
-  box-shadow: 0 0 30px rgba(243, 156, 18, 0.4);
+  box-shadow: 0 0 40px rgba(243, 156, 18, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .fullscreen-timer-btn.reset {
-  background: linear-gradient(135deg, rgba(231, 76, 60, 0.8), rgba(192, 57, 43, 0.8));
+  background: linear-gradient(135deg, rgba(231, 76, 60, 0.9), rgba(192, 57, 43, 0.9));
   color: white;
-  box-shadow: 0 0 30px rgba(231, 76, 60, 0.4);
-}
-
-.fullscreen-timer-btn.lap {
-  background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(41, 128, 185, 0.8));
-  color: white;
-  box-shadow: 0 0 30px rgba(52, 152, 219, 0.4);
+  box-shadow: 0 0 40px rgba(231, 76, 60, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .fullscreen-timer-btn:hover {
-  transform: scale(1.15);
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+  transform: scale(1.2) translateY(-10px);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+  animation: none;
 }
 
 .fullscreen-timer-btn:active {
-  transform: scale(1.05);
+  transform: scale(1.1) translateY(-5px);
 }
 
-/* Timer Background Animation */
+/* Timer Background Animation - Enhanced */
 .timer-fullscreen::before {
   content: '';
   position: absolute;
@@ -1148,26 +1228,61 @@ body {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(240, 147, 251, 0.05) 0%, transparent 50%);
-  animation: backgroundFloat 20s ease-in-out infinite;
+    radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(240, 147, 251, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 60% 70%, rgba(245, 87, 108, 0.1) 0%, transparent 50%);
+  animation: backgroundSpectacle 25s ease-in-out infinite;
   z-index: 0;
 }
 
-@keyframes backgroundFloat {
+@keyframes backgroundSpectacle {
   0%, 100% { 
-    transform: translate(0, 0) rotate(0deg);
-    opacity: 0.5;
-  }
-  33% { 
-    transform: translate(30px, -30px) rotate(120deg);
-    opacity: 0.8;
-  }
-  66% { 
-    transform: translate(-20px, 20px) rotate(240deg);
+    transform: translate(0, 0) rotate(0deg) scale(1);
     opacity: 0.6;
   }
+  20% { 
+    transform: translate(50px, -30px) rotate(72deg) scale(1.1);
+    opacity: 0.8;
+  }
+  40% { 
+    transform: translate(-30px, 40px) rotate(144deg) scale(0.9);
+    opacity: 0.7;
+  }
+  60% { 
+    transform: translate(40px, 20px) rotate(216deg) scale(1.05);
+    opacity: 0.9;
+  }
+  80% { 
+    transform: translate(-20px, -40px) rotate(288deg) scale(0.95);
+    opacity: 0.6;
+  }
+}
+
+/* Additional floating particles */
+.timer-fullscreen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, rgba(102, 126, 234, 0.4), transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(118, 75, 162, 0.3), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(240, 147, 251, 0.4), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(245, 87, 108, 0.3), transparent),
+    radial-gradient(2px 2px at 160px 30px, rgba(102, 126, 234, 0.2), transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+  animation: particleFloat 20s linear infinite;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+@keyframes particleFloat {
+  from { transform: translateY(100vh) translateX(-10px); }
+  to { transform: translateY(-100px) translateX(10px); }
 }
 
 /* Fullscreen Stopwatch */
@@ -1502,9 +1617,4 @@ body {
 
 .fade-in-scale {
   animation: fadeInScale 0.5s ease;
-}
-
-/* Add SVG gradient definition for timer progress */
-.progress-ring defs {
-  display: none;
 }
