@@ -199,9 +199,9 @@ class ModernTodoApp {
     
     // Update progress ring
     if (this.timerTotalTime > 0) {
-      const progress = ((this.timerTotalTime - this.timerTime) / this.timerTotalTime) * 879.646;
+      const progress = ((this.timerTotalTime - this.timerTime) / this.timerTotalTime) * 1130.97;
       const progressCircle = document.querySelector('.progress-ring-progress');
-      progressCircle.style.strokeDashoffset = 879.646 - progress;
+      progressCircle.style.strokeDashoffset = 1130.97 - progress;
     }
   }
   

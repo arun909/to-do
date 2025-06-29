@@ -6,27 +6,28 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
   overflow-x: hidden;
+  color: #e0e6ed;
 }
 
 .app-container {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(26, 26, 46, 0.95);
+  backdrop-filter: blur(20px);
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   width: 100%;
   max-width: 500px;
   min-height: 600px;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(79, 172, 254, 0.2);
 }
 
 .app-container.floating {
@@ -36,13 +37,13 @@ body {
   width: 350px;
   max-width: 350px;
   z-index: 1000;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
   cursor: move;
   user-select: none;
 }
 
 .app-container.floating:hover {
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
   transform: translateY(-2px);
 }
 
@@ -59,7 +60,7 @@ body {
 
 /* Header */
 .header {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 15px 20px;
   display: flex;
@@ -88,7 +89,7 @@ body {
 .header h1 {
   font-size: 1.5rem;
   font-weight: 600;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .header-controls {
@@ -123,8 +124,8 @@ body {
 /* Navigation Tabs */
 .nav-tabs {
   display: flex;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  background: #1e1e3f;
+  border-bottom: 1px solid #2a2a4a;
   position: relative;
 }
 
@@ -135,7 +136,7 @@ body {
   background: transparent;
   cursor: pointer;
   font-size: 0.9rem;
-  color: #6c757d;
+  color: #8892b0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
@@ -152,14 +153,14 @@ body {
   left: 50%;
   width: 0;
   height: 3px;
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  background: linear-gradient(90deg, #667eea, #764ba2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateX(-50%);
 }
 
 .tab-btn:hover {
-  background: #e9ecef;
-  color: #495057;
+  background: #2a2a4a;
+  color: #ccd6f6;
   transform: translateY(-2px);
 }
 
@@ -168,8 +169,8 @@ body {
 }
 
 .tab-btn.active {
-  background: white;
-  color: #4facfe;
+  background: #1a1a2e;
+  color: #667eea;
   transform: translateY(-2px);
 }
 
@@ -192,6 +193,7 @@ body {
   padding: 20px;
   min-height: 400px;
   animation: fadeInUp 0.5s ease;
+  background: #1a1a2e;
 }
 
 .tab-content.active {
@@ -219,19 +221,24 @@ body {
 #todo-input {
   flex: 1;
   padding: 12px 16px;
-  border: 2px solid #e9ecef;
+  border: 2px solid #2a2a4a;
   border-radius: 25px;
   font-size: 1rem;
   outline: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(42, 42, 74, 0.8);
   backdrop-filter: blur(10px);
+  color: #e0e6ed;
+}
+
+#todo-input::placeholder {
+  color: #8892b0;
 }
 
 #todo-input:focus {
-  border-color: #4facfe;
-  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
-  background: white;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  background: #2a2a4a;
   transform: translateY(-1px);
 }
 
@@ -239,7 +246,7 @@ body {
   width: 50px;
   height: 50px;
   border: none;
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border-radius: 50%;
   cursor: pointer;
@@ -266,7 +273,7 @@ body {
 
 #add-btn:hover {
   transform: scale(1.1) rotate(90deg);
-  box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 #add-btn:hover::before {
@@ -282,7 +289,7 @@ body {
 .progress-bar {
   width: 100%;
   height: 8px;
-  background: #e9ecef;
+  background: #2a2a4a;
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 8px;
@@ -291,7 +298,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
   width: 0%;
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -316,7 +323,7 @@ body {
 
 .progress-text {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: #8892b0;
   text-align: center;
   display: block;
   font-weight: 500;
@@ -331,12 +338,12 @@ body {
 
 .filter-btn {
   padding: 8px 16px;
-  border: 1px solid #e9ecef;
-  background: white;
+  border: 1px solid #2a2a4a;
+  background: #1e1e3f;
   border-radius: 20px;
   cursor: pointer;
   font-size: 0.9rem;
-  color: #6c757d;
+  color: #8892b0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -349,21 +356,21 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  background: linear-gradient(90deg, #667eea, #764ba2);
   transition: left 0.3s ease;
   z-index: -1;
 }
 
 .filter-btn:hover {
-  border-color: #4facfe;
-  color: #4facfe;
+  border-color: #667eea;
+  color: #667eea;
   transform: translateY(-2px);
 }
 
 .filter-btn.active {
-  background: #4facfe;
+  background: #667eea;
   color: white;
-  border-color: #4facfe;
+  border-color: #667eea;
   transform: translateY(-2px);
 }
 
@@ -383,17 +390,17 @@ body {
   align-items: center;
   padding: 15px;
   margin-bottom: 10px;
-  background: white;
+  background: #1e1e3f;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(79, 172, 254, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.1);
 }
 
 .todo-item:hover {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border-color: rgba(79, 172, 254, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  border-color: rgba(102, 126, 234, 0.3);
 }
 
 .todo-item.completed {
@@ -403,7 +410,7 @@ body {
 
 .todo-item.completed .todo-text {
   text-decoration: line-through;
-  color: #6c757d;
+  color: #8892b0;
 }
 
 .todo-checkbox {
@@ -411,13 +418,13 @@ body {
   height: 20px;
   margin-right: 15px;
   cursor: pointer;
-  accent-color: #4facfe;
+  accent-color: #667eea;
 }
 
 .todo-text {
   flex: 1;
   font-size: 1rem;
-  color: #333;
+  color: #e0e6ed;
   transition: color 0.3s ease;
 }
 
@@ -441,12 +448,12 @@ body {
 }
 
 .edit-btn {
-  background: #ffc107;
+  background: #f39c12;
   color: white;
 }
 
 .delete-btn {
-  background: #dc3545;
+  background: #e74c3c;
   color: white;
 }
 
@@ -495,7 +502,7 @@ body {
   margin-bottom: 5px;
   position: relative;
   z-index: 1;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .date-display {
@@ -545,23 +552,25 @@ body {
 
 .time-input-group label {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: #8892b0;
   font-weight: 500;
 }
 
 .time-input-group input {
   width: 60px;
   padding: 8px;
-  border: 2px solid #e9ecef;
+  border: 2px solid #2a2a4a;
   border-radius: 8px;
   text-align: center;
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
+  background: #1e1e3f;
+  color: #e0e6ed;
 }
 
 .time-input-group input:focus {
-  border-color: #4facfe;
+  border-color: #667eea;
   transform: scale(1.05);
 }
 
@@ -573,14 +582,14 @@ body {
 .timer-display {
   font-size: 3rem;
   font-weight: 300;
-  color: #333;
+  color: #e0e6ed;
   margin: 20px 0;
   padding: 20px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: linear-gradient(135deg, #1e1e3f 0%, #2a2a4a 100%);
   border-radius: 15px;
   position: relative;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 2px solid rgba(79, 172, 254, 0.1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(102, 126, 234, 0.2);
 }
 
 .stopwatch-display-container {
@@ -629,28 +638,28 @@ body {
 }
 
 .timer-btn.start {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
   color: white;
 }
 
 .timer-btn.pause {
-  background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
   color: white;
 }
 
 .timer-btn.reset {
-  background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   color: white;
 }
 
 .timer-btn.lap {
-  background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
   color: white;
 }
 
 .timer-btn:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .timer-btn:active {
@@ -661,14 +670,14 @@ body {
 .break-timer-section {
   margin-top: 30px;
   padding: 20px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: linear-gradient(135deg, #1e1e3f 0%, #2a2a4a 100%);
   border-radius: 15px;
-  border: 1px solid rgba(79, 172, 254, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.2);
 }
 
 .break-timer-section h3 {
   margin-bottom: 15px;
-  color: #333;
+  color: #e0e6ed;
   text-align: center;
 }
 
@@ -680,22 +689,23 @@ body {
 
 .break-controls label {
   font-weight: 500;
-  color: #6c757d;
+  color: #8892b0;
   text-align: center;
 }
 
 .break-controls select {
   padding: 10px;
-  border: 2px solid #e9ecef;
+  border: 2px solid #2a2a4a;
   border-radius: 8px;
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
-  background: white;
+  background: #1e1e3f;
+  color: #e0e6ed;
 }
 
 .break-controls select:focus {
-  border-color: #4facfe;
+  border-color: #667eea;
   transform: scale(1.02);
 }
 
@@ -707,13 +717,13 @@ body {
 .stopwatch-display {
   font-size: 3.5rem;
   font-weight: 300;
-  color: #333;
+  color: #e0e6ed;
   margin: 30px 0;
   padding: 30px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: linear-gradient(135deg, #1e1e3f 0%, #2a2a4a 100%);
   border-radius: 15px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 2px solid rgba(79, 172, 254, 0.1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(102, 126, 234, 0.2);
 }
 
 .stopwatch-buttons {
@@ -730,7 +740,7 @@ body {
 
 .laps-container h3 {
   margin-bottom: 15px;
-  color: #333;
+  color: #e0e6ed;
   text-align: center;
 }
 
@@ -745,16 +755,17 @@ body {
   justify-content: space-between;
   padding: 10px 15px;
   margin-bottom: 8px;
-  background: white;
+  background: #1e1e3f;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
-  border: 1px solid rgba(79, 172, 254, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  color: #e0e6ed;
 }
 
 .lap-item:hover {
   transform: translateX(5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 /* Alarm Section */
@@ -768,7 +779,7 @@ body {
 
 .alarm-set h3 {
   margin-bottom: 20px;
-  color: #333;
+  color: #e0e6ed;
 }
 
 .alarm-inputs {
@@ -794,20 +805,20 @@ body {
 }
 
 .alarm-status.active {
-  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  color: white;
+  border: 1px solid #27ae60;
 }
 
 .alarm-status.inactive {
-  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+  border: 1px solid #e74c3c;
 }
 
 .active-alarms h3 {
   margin-bottom: 15px;
-  color: #333;
+  color: #e0e6ed;
   text-align: left;
 }
 
@@ -822,26 +833,26 @@ body {
   align-items: center;
   padding: 15px;
   margin-bottom: 10px;
-  background: white;
+  background: #1e1e3f;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
-  border: 1px solid rgba(79, 172, 254, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.1);
 }
 
 .alarm-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 .alarm-time {
   font-size: 1.2rem;
   font-weight: 500;
-  color: #333;
+  color: #e0e6ed;
 }
 
 .alarm-remove {
-  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   color: white;
   border: none;
   padding: 8px 12px;
@@ -852,7 +863,7 @@ body {
 
 .alarm-remove:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
 }
 
 /* Fullscreen Overlays */
@@ -862,7 +873,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
   display: none;
   justify-content: center;
   align-items: center;
@@ -904,8 +915,8 @@ body {
   position: absolute;
   top: 30px;
   right: 30px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   color: white;
   width: 50px;
   height: 50px;
@@ -920,8 +931,9 @@ body {
 }
 
 .fullscreen-close:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
   transform: scale(1.1) rotate(90deg);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 /* Fullscreen Clock */
@@ -929,20 +941,32 @@ body {
   font-size: 8rem;
   font-weight: 100;
   margin-bottom: 20px;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   animation: pulse 2s ease-in-out infinite alternate;
+  background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 3s ease infinite, pulse 2s ease-in-out infinite alternate;
 }
 
 .fullscreen-date {
   font-size: 2rem;
   opacity: 0.8;
   margin-bottom: 50px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  color: #ccd6f6;
 }
 
 @keyframes pulse {
   from { opacity: 0.8; }
   to { opacity: 1; }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .clock-animation {
@@ -955,7 +979,7 @@ body {
 
 .clock-circle {
   position: absolute;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(102, 126, 234, 0.2);
   border-radius: 50%;
   animation: clockRotate 20s linear infinite;
 }
@@ -964,6 +988,7 @@ body {
   width: 300px;
   height: 300px;
   margin: -150px 0 0 -150px;
+  border-color: rgba(102, 126, 234, 0.3);
 }
 
 .clock-circle:nth-child(2) {
@@ -972,6 +997,7 @@ body {
   margin: -250px 0 0 -250px;
   animation-duration: 30s;
   animation-direction: reverse;
+  border-color: rgba(118, 75, 162, 0.2);
 }
 
 .clock-circle:nth-child(3) {
@@ -979,6 +1005,7 @@ body {
   height: 700px;
   margin: -350px 0 0 -350px;
   animation-duration: 40s;
+  border-color: rgba(240, 147, 251, 0.1);
 }
 
 @keyframes clockRotate {
@@ -986,14 +1013,29 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* Fullscreen Timer */
+/* Fullscreen Timer - Redesigned */
 .fullscreen-timer {
-  font-size: 8rem;
+  font-size: 6rem;
   font-weight: 100;
-  margin-bottom: 50px;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 30px;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   position: relative;
   z-index: 2;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: timerPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes timerPulse {
+  from { 
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  to { 
+    transform: scale(1.02);
+    filter: brightness(1.1);
+  }
 }
 
 .timer-progress-ring {
@@ -1006,18 +1048,27 @@ body {
 
 .progress-ring {
   transform: rotate(-90deg);
+  filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
 }
 
 .progress-ring-circle {
   transition: stroke-dashoffset 0.35s;
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.progress-ring-progress {
+  stroke: url(#timerGradient);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease;
 }
 
 .fullscreen-timer-controls {
   display: flex;
-  gap: 30px;
+  gap: 40px;
   justify-content: center;
   position: relative;
   z-index: 2;
+  margin-top: 50px;
 }
 
 .fullscreen-timer-btn {
@@ -1031,33 +1082,92 @@ body {
   justify-content: center;
   font-size: 1.5rem;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.fullscreen-timer-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  transform: translate(-50%, -50%);
+}
+
+.fullscreen-timer-btn:hover::before {
+  width: 120px;
+  height: 120px;
 }
 
 .fullscreen-timer-btn.start {
-  background: rgba(40, 167, 69, 0.8);
+  background: linear-gradient(135deg, rgba(39, 174, 96, 0.8), rgba(46, 204, 113, 0.8));
   color: white;
+  box-shadow: 0 0 30px rgba(39, 174, 96, 0.4);
 }
 
 .fullscreen-timer-btn.pause {
-  background: rgba(255, 193, 7, 0.8);
+  background: linear-gradient(135deg, rgba(243, 156, 18, 0.8), rgba(230, 126, 34, 0.8));
   color: white;
+  box-shadow: 0 0 30px rgba(243, 156, 18, 0.4);
 }
 
 .fullscreen-timer-btn.reset {
-  background: rgba(220, 53, 69, 0.8);
+  background: linear-gradient(135deg, rgba(231, 76, 60, 0.8), rgba(192, 57, 43, 0.8));
   color: white;
+  box-shadow: 0 0 30px rgba(231, 76, 60, 0.4);
 }
 
 .fullscreen-timer-btn.lap {
-  background: rgba(23, 162, 184, 0.8);
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(41, 128, 185, 0.8));
   color: white;
+  box-shadow: 0 0 30px rgba(52, 152, 219, 0.4);
 }
 
 .fullscreen-timer-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transform: scale(1.15);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+}
+
+.fullscreen-timer-btn:active {
+  transform: scale(1.05);
+}
+
+/* Timer Background Animation */
+.timer-fullscreen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(240, 147, 251, 0.05) 0%, transparent 50%);
+  animation: backgroundFloat 20s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes backgroundFloat {
+  0%, 100% { 
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.5;
+  }
+  33% { 
+    transform: translate(30px, -30px) rotate(120deg);
+    opacity: 0.8;
+  }
+  66% { 
+    transform: translate(-20px, 20px) rotate(240deg);
+    opacity: 0.6;
+  }
 }
 
 /* Fullscreen Stopwatch */
@@ -1065,9 +1175,12 @@ body {
   font-size: 8rem;
   font-weight: 100;
   margin-bottom: 50px;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   position: relative;
   z-index: 2;
+  background: linear-gradient(45deg, #3498db, #2980b9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .stopwatch-animation {
@@ -1080,7 +1193,7 @@ body {
 
 .pulse-ring {
   position: absolute;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(52, 152, 219, 0.3);
   border-radius: 50%;
   animation: pulse-expand 3s ease-out infinite;
 }
@@ -1096,6 +1209,7 @@ body {
   height: 400px;
   margin: -200px 0 0 -200px;
   animation-delay: 1s;
+  border-color: rgba(41, 128, 185, 0.2);
 }
 
 .pulse-ring:nth-child(3) {
@@ -1103,6 +1217,7 @@ body {
   height: 600px;
   margin: -300px 0 0 -300px;
   animation-delay: 2s;
+  border-color: rgba(52, 152, 219, 0.1);
 }
 
 @keyframes pulse-expand {
@@ -1131,12 +1246,12 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
   display: none;
   justify-content: center;
   align-items: center;
   z-index: 2000;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
 }
 
 .modal-overlay.show {
@@ -1154,18 +1269,18 @@ body {
 }
 
 .modal-content {
-  background: white;
+  background: #1a1a2e;
   border-radius: 20px;
   padding: 0;
   max-width: 400px;
   width: 90%;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(79, 172, 254, 0.2);
+  border: 1px solid rgba(102, 126, 234, 0.3);
 }
 
 .modal-content.alarm-alert {
-  border: 3px solid #dc3545;
+  border: 3px solid #e74c3c;
   animation: shake 0.5s ease-in-out;
 }
 
@@ -1187,7 +1302,7 @@ body {
 }
 
 .modal-header {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 20px;
   border-radius: 20px 20px 0 0;
@@ -1245,26 +1360,27 @@ body {
 .modal-body {
   padding: 30px 20px;
   text-align: center;
+  color: #e0e6ed;
 }
 
 .quote-text {
   font-size: 1.2rem;
   font-style: italic;
-  color: #333;
+  color: #e0e6ed;
   margin-bottom: 15px;
   line-height: 1.6;
 }
 
 .quote-author {
   font-weight: 500;
-  color: #6c757d;
+  color: #8892b0;
   margin-bottom: 0;
 }
 
 .alarm-time-display {
   font-size: 2rem;
   font-weight: 300;
-  color: #dc3545;
+  color: #e74c3c;
   margin-top: 15px;
   animation: pulse 1s ease-in-out infinite alternate;
 }
@@ -1340,17 +1456,17 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #1e1e3f;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #3a8bfd 0%, #00d4ff 100%);
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
 }
 
 /* Additional Animations */
@@ -1386,4 +1502,9 @@ body {
 
 .fade-in-scale {
   animation: fadeInScale 0.5s ease;
+}
+
+/* Add SVG gradient definition for timer progress */
+.progress-ring defs {
+  display: none;
 }
